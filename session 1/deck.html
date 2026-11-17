@@ -1,0 +1,448 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Break Down a Product · Session 1</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+*{margin:0;box-sizing:border-box} html,body{height:100%;background:#1F1A17;overflow:hidden}
+#stage{position:fixed;inset:0}
+#deck{width:1920px;height:1080px;position:absolute;left:50%;top:50%;transform-origin:center center}
+#deck>section{position:absolute;inset:0;width:1920px;height:1080px;display:none}
+#deck>section.cur{display:flex}
+body { font-family: 'Inter Tight', Arial, sans-serif; color: #1F1A17; }
+section { padding: 128px; background: #F5EEE6; color: #1F1A17; display: flex; flex-direction: row; gap: 80px; align-items: center; box-sizing: border-box; }
+section.dark { background: #1F1A17; color: #F5EEE6; }
+section.blue { background: #FF5C35; color: #1F1A17; }
+
+.side { width: 560px; flex: none; display: flex; flex-direction: column; gap: 24px; }
+.side.wide { width: 720px; }
+.main { flex: 1; display: flex; flex-direction: column; gap: 28px; justify-content: center; }
+
+h1 { font-family: 'Anton', 'Arial Narrow', Arial, sans-serif; font-size: 140px; font-weight: 400; line-height: 0.92; text-transform: uppercase; color: inherit; }
+h2 { font-family: 'Anton', 'Arial Narrow', Arial, sans-serif; font-size: 88px; font-weight: 400; line-height: 0.95; text-transform: uppercase; color: #1F1A17; }
+section.dark h2 { color: #F5EEE6; } section.blue h2 { color: #1F1A17; }
+h3 { font-family: 'Inter Tight', Arial, sans-serif; font-size: 32px; font-weight: 700; line-height: 1.15; color: #1F1A17; }
+
+.eyebrow { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 24px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: #FF5C35; }
+section.dark .eyebrow { color: #FF5C35; }
+section.blue .eyebrow { color: #1F1A17; }
+.lead { font-size: 40px; line-height: 1.25; color: #5A4E44; }
+section.dark .lead { color: #BFB1A3; }
+section.blue .lead { color: #1F1A17; }
+.body { font-size: 32px; line-height: 1.35; color: #5A4E44; }
+section.dark .body { color: #BFB1A3; }
+.small { font-size: 24px; line-height: 1.4; color: #5A4E44; }
+section.dark .small { color: #BFB1A3; }
+.quote { font-family: 'Inter Tight', Arial, sans-serif; font-size: 40px; font-weight: 700; line-height: 1.2; color: #1F1A17; border-left: 10px solid #FF5C35; padding-left: 28px; }
+section.dark .quote { color: #F5EEE6; border-left: 10px solid #FF5C35; }
+
+.bg { position: absolute; left: 0px; top: 0px; width: 1920px; height: 1080px; }
+.chips { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; }
+.chip { font-size: 24px; font-weight: 700; background: #FFFBF6; color: #1F1A17; padding: 8px 20px; border: 3px solid #1F1A17; border-radius: 4px; }
+.chip.on { background: #1F1A17; color: #FFFBF6; }
+section.dark .chip { background: #2A2420; color: #F5EEE6; border: 3px solid #F5EEE6; }
+.pill { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 24px; font-weight: 500; background: #FFFBF6; color: #1F1A17; padding: 10px 22px; border: 3px solid #1F1A17; border-radius: 4px; align-self: flex-start; }
+
+.stage { position: relative; flex: none; }
+.lbl { position: absolute; font-size: 24px; line-height: 1.3; color: #1F1A17; }
+section.dark .lbl { color: #F5EEE6; }
+.lbl b { color: #FF5C35; }
+section.dark .lbl b { color: #FF5C35; }
+.big-lbl { position: absolute; font-family: 'Anton', 'Arial Narrow', Arial, sans-serif; font-size: 44px; font-weight: 400; text-transform: uppercase; color: #1F1A17; text-align: center; }
+
+.phone { position: absolute; background: #1F1A17; border-radius: 44px; padding: 14px; box-sizing: border-box; box-shadow: 16px 16px 0px #FF5C35; }
+.screen { background: #FFFBF6; border-radius: 32px; width: 100%; height: 100%; box-sizing: border-box; padding: 34px 20px 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.bar { height: 18px; border-radius: 3px; background: #E4D8CB; }
+.bar.s { width: 45%; }
+.bar.m { width: 70%; }
+.blk { border-radius: 6px; background: #EDE3D7; }
+.blk.lime { background: #FFE2D8; border: 3px solid #FF5C35; }
+.blk.blue { background: #FF5C35; }
+.blk.navy { background: #1F1A17; }
+.blk.line { background: #FFFBF6; border: 3px solid #1F1A17; }
+.blk.dash { background: #FFFBF6; border: 3px dashed #8F8174; }
+.uirow { display: flex; flex-direction: row; gap: 10px; }
+.uitext { font-size: 24px; font-weight: 700; color: #1F1A17; text-align: center; }
+.uitext.w { color: #FFFBF6; }
+
+.pin { position: absolute; width: 52px; height: 52px; border-radius: 26px; background: #FF5C35; border: 4px solid #1F1A17; box-sizing: border-box; font-family: 'Inter Tight', Arial, sans-serif; font-size: 24px; font-weight: 800; color: #FFFBF6; text-align: center; line-height: 44px; }
+.note { display: flex; flex-direction: row; gap: 18px; align-items: flex-start; }
+.note .n { width: 44px; height: 44px; flex: none; border-radius: 22px; background: #FF5C35; border: 3px solid #1F1A17; box-sizing: border-box; font-family: 'Inter Tight', Arial, sans-serif; font-size: 22px; font-weight: 800; text-align: center; line-height: 38px; color: #FFFBF6; }
+.note .t { font-size: 26px; line-height: 1.35; color: #1F1A17; flex: 1; }
+section.dark .note .t { color: #F5EEE6; }
+.note .t b { color: #FF5C35; }
+section.dark .note .t b { color: #FF5C35; }
+
+.tag { font-size: 24px; font-weight: 700; padding: 6px 14px; border-radius: 4px; align-self: flex-start; }
+.tag.good { background: #DDF7C4; color: #24510F; }
+.tag.bad { background: #FFD9D2; color: #8A1C0C; }
+
+@keyframes rise { from { opacity: 0; transform: translate(0px, 24px); } to { opacity: 1; transform: translate(0px, 0px); } }
+@keyframes pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+.in { animation: rise 500ms ease-out both; animation-delay: calc(var(--i) * 110ms); }
+.pin { animation: pop 400ms ease-out both; animation-delay: calc(var(--i) * 150ms + 300ms); }
+
+x-icon{display:inline-block}
+#ui{position:fixed;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:10px;font:600 14px Inter Tight,Arial,sans-serif;z-index:5}
+#ui button{background:#FFFBF6;border:2px solid #1F1A17;padding:6px 14px;cursor:pointer;font:inherit}
+#ui span{color:#1F1A17;background:#FFFBF6;border:2px solid #1F1A17;padding:6px 14px}
+#notes{position:fixed;left:16px;right:16px;bottom:56px;max-height:30vh;overflow:auto;background:#FFFBF6;border:3px solid #1F1A17;padding:14px 18px;font:16px/1.5 Inter Tight,Arial,sans-serif;display:none;z-index:6}
+</style></head><body>
+<div id="stage"><div id="deck">
+<section data-note="Welcome. Today: what a PM really does, and a repeatable way to break down any app." id="cover" class="" data-transition="fade">
+<svg class="bg" width="1920" height="1080" viewBox="0 0 1920 1080" aria-label=""><defs><pattern id="gr-cover" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0H0V120" fill="none" stroke="#F5EEE6" stroke-opacity="0.06" stroke-width="1.5"/></pattern><radialGradient id="o1-cover"><stop offset="0" stop-color="#FF5C35" stop-opacity="0.65"/><stop offset="1" stop-color="#FF5C35" stop-opacity="0"/></radialGradient></defs><rect width="1920" height="1080" fill="url(#gr-cover)"/></svg>
+<div class="side wide">
+<p class="eyebrow">Product masterclass</p>
+<h1>How to break down a product</h1>
+<p class="lead">One user. One flow. Three lenses. A metric for every fix.</p>
+<p class="pill">Aadi Kalra</p>
+</div>
+<div class="stage" style="width:760px; height:760px">
+<div class="phone" style="left:0px; top:10px; width:380px; height:740px">
+<div class="screen">
+<div class="bar s"></div>
+<div class="blk lime" style="height:200px"></div>
+<div class="uirow"><div class="blk" style="height:120px; flex:1"></div><div class="blk" style="height:120px; flex:1"></div></div>
+<div class="bar m"></div>
+<div class="bar"></div>
+<div class="blk line" style="height:90px"></div>
+<div class="blk blue" style="height:72px"></div>
+</div>
+</div>
+<p class="pin" style="left:354px; top:130px; --i:0">1</p>
+<p class="lbl" style="left:432px; top:134px; width:328px">Why is <b>this</b> on top?</p>
+<p class="pin" style="left:354px; top:380px; --i:1">2</p>
+<p class="lbl" style="left:432px; top:384px; width:328px">Who <b>earns</b> from it?</p>
+<p class="pin" style="left:354px; top:640px; --i:2">3</p>
+<p class="lbl" style="left:432px; top:644px; width:328px">Where does it <b>hurt</b>?</p>
+</div>
+
+</section>
+<section data-note="Take 3 or 4 answers. Land it: a breakdown is figuring out the reason behind a screen, and whether it's a good one." id="hook" class="blue">
+<svg class="bg" width="1920" height="1080" viewBox="0 0 1920 1080" aria-label=""><defs><pattern id="gr-hook" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0H0V120" fill="none" stroke="#1F1A17" stroke-opacity="0.10" stroke-width="1.5"/></pattern></defs><rect width="1920" height="1080" fill="url(#gr-hook)"/></svg>
+<div class="side wide">
+<p class="eyebrow">Before we start</p>
+<h1>Every screen is a decision.</h1>
+<p class="lead">Open the last app you used. Why did it show you <b>that</b> screen first?</p>
+</div>
+<div class="stage" style="width:820px; height:720px">
+<div class="phone" style="left:0px; top:80px; width:300px; height:600px; transform:rotate(-8deg)"><div class="screen"><div class="bar s"></div><div class="blk" style="height:180px"></div><div class="bar"></div><div class="bar m"></div><div class="blk" style="height:120px"></div></div></div>
+<div class="phone" style="left:480px; top:80px; width:300px; height:600px; transform:rotate(8deg)"><div class="screen"><div class="bar m"></div><div class="uirow"><div class="blk" style="height:110px; flex:1"></div><div class="blk" style="height:110px; flex:1"></div></div><div class="uirow"><div class="blk" style="height:110px; flex:1"></div><div class="blk" style="height:110px; flex:1"></div></div><div class="bar"></div></div></div>
+<div class="phone" style="left:240px; top:20px; width:320px; height:660px"><div class="screen"><div class="bar s"></div><div class="blk lime" style="height:230px"></div><div class="bar"></div><div class="bar m"></div><div class="blk line" style="height:100px"></div><div class="blk navy" style="height:64px"></div></div></div>
+<p class="pin" style="left:520px; top:110px; --i:0">?</p>
+</div>
+
+</section>
+<section data-note="Nobody reports to the PM, so it’s done through clear reasoning, data and trust. A real PM week: discovery (user calls, data), delivery (specs, unblocking engineers), communication (updates, saying no), measurement (did it move the metric). Ideas are a small slice. Feature request example: “build a leaderboard by next week”: ask what job it does, who needs it, what it delays, and if there’s a cheaper way." id="pm-role">
+<div class="side">
+<p class="eyebrow">01 · What a PM does</p>
+<h2>Where business, user and tech meet</h2>
+<p class="body">Decides <b>what</b> gets built and <b>why</b>.</p>
+<div class="chips"><p class="chip">Discovery</p><p class="chip">Delivery</p><p class="chip">Communication</p><p class="chip on">Measurement</p></div>
+</div>
+<div class="stage" style="width:900px; height:780px">
+<svg width="900" height="780" viewBox="0 0 900 780" aria-label="Venn diagram: business, user and tech overlap, with the PM in the middle"><circle cx="330" cy="290" r="250" fill="none" stroke="#1F1A17" stroke-width="6"/><circle cx="570" cy="290" r="250" fill="none" stroke="#1F1A17" stroke-width="6"/><circle cx="450" cy="490" r="250" fill="none" stroke="#FF5C35" stroke-width="6"/><circle cx="450" cy="358" r="70" fill="#FF5C35" stroke="#1F1A17" stroke-width="6"/></svg>
+<p class="big-lbl" style="left:70px; top:180px; width:240px">Business</p>
+<p class="lbl" style="left:70px; top:244px; width:240px; text-align:center">Does it make money?</p>
+<p class="big-lbl" style="left:590px; top:180px; width:240px">Tech</p>
+<p class="lbl" style="left:590px; top:244px; width:240px; text-align:center">Can we build it?</p>
+<p class="big-lbl" style="left:330px; top:590px; width:240px; color:#FF5C35">User</p>
+<p class="lbl" style="left:310px; top:654px; width:280px; text-align:center">Does it solve a real job?</p>
+<p class="big-lbl" style="left:384px; top:326px; width:132px; color:#FFFBF6">PM</p>
+</div>
+
+</section>
+<section data-note="A good persona = who + goal + context + constraint. Different personas have different jobs, so mixing them dilutes every insight. Riya is made up for teaching; in a real breakdown, build the persona from reviews, a few user chats, or your own honest use." id="persona">
+<div class="side">
+<p class="eyebrow">02 · Start with the user</p>
+<h2>Define the persona first</h2>
+<p class="body">One person. One situation.</p>
+<div style="display:flex; flex-direction:column; gap:14px">
+<div class="note"><p class="n" style="background:#FFD9D2">✕</p><p class="t" style="color:#7A6C60">“College students, 18 to 25” (too broad)</p></div>
+<div class="note"><p class="n">✓</p><p class="t">“A hostel student ordering dinner at 11 PM with ₹200 left this week”</p></div>
+</div>
+</div>
+<div class="stage" style="width:1000px; height:780px">
+<div class="in" style="--i:0; position:absolute; left:60px; top:20px; width:880px; height:740px; background:#FFFBF6; border:3px solid #1F1A17; border-radius:32px; box-shadow:0px 30px 60px rgba(11,18,32,0.12); padding:48px; box-sizing:border-box; display:flex; flex-direction:column; gap:28px">
+<div style="display:flex; flex-direction:row; gap:28px; align-items:center">
+<div style="width:120px; height:120px; border-radius:60px; background:#FF5C35; display:flex; align-items:center; justify-content:center; flex:none"><p style="font-family:'Anton', Arial, sans-serif; font-size:56px; font-weight:800; color:#FFFBF6">R</p></div>
+<div style="display:flex; flex-direction:column; gap:6px"><h3 style="font-size:44px">Riya, 19</h3><p class="small">2nd-year student, lives in a hostel</p></div>
+<p class="tag" style="background:#EDE3D7; color:#FF5C35; margin-left:auto; align-self:center">Example persona</p>
+</div>
+<div style="height:2px; background:#DCCFC1"></div>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:28px">
+<div style="display:flex; flex-direction:column; gap:8px"><p class="eyebrow" style="font-size:22px">Goal</p><p class="small" style="color:#1F1A17">Eat something decent without leaving her room during exams</p></div>
+<div style="display:flex; flex-direction:column; gap:8px"><p class="eyebrow" style="font-size:22px">Context</p><p class="small" style="color:#1F1A17">Late night, phone in one hand, notes in the other</p></div>
+<div style="display:flex; flex-direction:column; gap:8px"><p class="eyebrow" style="font-size:22px">Constraint</p><p class="small" style="color:#1F1A17">₹200 left this week; hates surprise fees</p></div>
+<div style="display:flex; flex-direction:column; gap:8px"><p class="eyebrow" style="font-size:22px">Behaviour</p><p class="small" style="color:#1F1A17">Reorders what she knows; sorts by price</p></div>
+</div>
+<div style="margin-top:auto; background:#1F1A17; border-radius:6px; padding:24px 28px; display:flex; flex-direction:row; gap:16px; align-items:center"><p class="tag" style="background:#FFFBF6; color:#1F1A17">Pain</p><p class="small" style="color:#F5EEE6">The price she sees isn’t the price she pays</p></div>
+</div>
+</div>
+
+</section>
+<section data-note="Layers: functional (order food), emotional (feel in control, no surprises), social (look smart to friends). Classic example: commuters “hired” a morning milkshake to make a boring drive less boring and stay full till lunch; the competition was bananas and bagels, not other milkshakes. McDonald's kiosk job: “I'm hungry. Let me order fast and eat.”" id="jtbd">
+<div class="side">
+<p class="eyebrow">02 · Start with the user</p>
+<h2>Then write the job they hire it for</h2>
+<p class="body">Judge every screen against the job.</p>
+<div class="chips"><p class="chip on">Functional</p><p class="chip">Emotional</p><p class="chip">Social</p></div>
+<p class="small">Every job has these three layers.</p>
+</div>
+<div class="main" style="gap:20px">
+<div class="in" style="--i:0; display:flex; flex-direction:row; align-items:stretch; border-radius:6px; overflow:hidden; background:#FFFBF6; border:3px solid #1F1A17">
+<div style="width:220px; flex:none; background:#1F1A17; display:flex; align-items:center; justify-content:center"><p style="font-family:'Anton', Arial, sans-serif; font-size:40px; font-weight:800; color:#FFFBF6">When I</p></div>
+<div style="flex:1; padding:32px 36px; display:flex; flex-direction:column; gap:6px"><p class="small">the situation</p><p class="body" style="color:#1F1A17">am hungry at 11 PM during exams,</p></div>
+</div>
+<div class="in" style="--i:1; display:flex; flex-direction:row; align-items:stretch; border-radius:6px; overflow:hidden; background:#FFFBF6; border:3px solid #1F1A17">
+<div style="width:220px; flex:none; background:#FF5C35; display:flex; align-items:center; justify-content:center"><p style="font-family:'Anton', Arial, sans-serif; font-size:40px; font-weight:800; color:#F5EEE6">I want to</p></div>
+<div style="flex:1; padding:32px 36px; display:flex; flex-direction:column; gap:6px"><p class="small">the motivation</p><p class="body" style="color:#1F1A17">get a filling meal fast, within my budget,</p></div>
+</div>
+<div class="in" style="--i:2; display:flex; flex-direction:row; align-items:stretch; border-radius:6px; overflow:hidden; background:#FFFBF6; border:3px solid #1F1A17">
+<div style="width:220px; flex:none; background:#FFFBF6; display:flex; align-items:center; justify-content:center"><p style="font-family:'Anton', Arial, sans-serif; font-size:40px; font-weight:800; color:#1F1A17">So I can</p></div>
+<div style="flex:1; padding:32px 36px; display:flex; flex-direction:column; gap:6px"><p class="small">the outcome</p><p class="body" style="color:#1F1A17">get back to studying without stress.</p></div>
+</div>
+<div class="in" style="--i:3; background:#EDE3D7; border-radius:6px; padding:24px 28px; display:flex; flex-direction:row; gap:16px; align-items:center"><p class="tag" style="background:#FF5C35; color:#F5EEE6">Test</p><p class="small" style="color:#1F1A17">Does this screen help the job, or pull her away from it?</p></div>
+</div>
+
+</section>
+<section data-note="" id="bd-what">
+<div class="side">
+<p class="eyebrow">03 · The breakdown</p>
+<h2>A breakdown goes deeper than a review</h2>
+
+</div>
+<div class="main">
+<div style="display:flex; flex-direction:row; gap:28px; align-items:flex-end; height:640px">
+<div class="in" style="--i:0; flex:1; height:220px; background:#EDE3D7; border-radius:6px 24px 0px 0px; padding:28px; box-sizing:border-box; display:flex; flex-direction:column; gap:10px"><h3>Review</h3><p class="small">“Clean UI, 8/10.” Ends in a rating.</p></div>
+<div class="in" style="--i:1; flex:1; height:400px; background:#D8C9B9; border-radius:6px 24px 0px 0px; padding:28px; box-sizing:border-box; display:flex; flex-direction:column; gap:10px"><h3>Teardown</h3><p class="small">Screen-by-screen walkthrough. Ends in observations.</p></div>
+<div class="in" style="--i:2; flex:1; height:640px; background:#FF5C35; border-radius:6px 24px 0px 0px; padding:28px; box-sizing:border-box; display:flex; flex-direction:column; gap:10px"><h3 style="color:#F5EEE6">Breakdown</h3><p class="small" style="color:#E6DACE">Why it’s built this way, for whom, where it breaks, what to change.</p><p class="tag" style="background:#FFFBF6; color:#1F1A17; margin-top:auto">Ends in a fix you can measure</p></div>
+</div>
+<div style="height:4px; background:#1F1A17; border-radius:2px"></div>
+<p class="small">Depth of thinking →</p>
+</div>
+</section>
+<section data-note="Pairs activity: narrow Zepto, Spotify, BookMyShow, Google Pay or Duolingo the same way, down to one question." id="bd-narrow">
+<div class="side">
+<p class="eyebrow">03 · Step one</p>
+<h2>Narrow it till you can test it in 30 minutes</h2>
+
+</div>
+<div class="main" style="align-items:center; gap:12px">
+<div class="in" style="--i:0; width:1000px; height:96px; background:#EDE3D7; border-radius:6px; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px"><p class="chip on">Product</p><p class="body" style="color:#1F1A17">Instagram</p></div>
+<div class="in" style="--i:1; width:860px; height:96px; background:#DFD2C4; border-radius:6px; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px"><p class="chip on">Area</p><p class="body" style="color:#1F1A17">Close Friends stories</p></div>
+<div class="in" style="--i:2; width:720px; height:96px; background:#CDBBA8; border-radius:6px; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px"><p class="chip on">Persona</p><p class="small" style="color:#1F1A17">Rarely posts, feels judged</p></div>
+<div class="in" style="--i:3; width:580px; height:96px; background:#8C7B6B; border-radius:6px; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px"><p class="chip on">Flow</p><p class="small" style="color:#1F1A17">First Close Friends story</p></div>
+<div class="in" style="--i:4; width:440px; height:96px; background:#FF5C35; border-radius:6px; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px"><p class="chip" style="background:#FFFBF6">Question</p></div>
+<p class="quote in" style="--i:5; margin-top:24px; width:1000px">Does Close Friends make a shy poster post more, and where does the flow lose them?</p>
+</div>
+
+</section>
+<section data-note="" id="bd-lenses" class="">
+<svg class="bg" width="1920" height="1080" viewBox="0 0 1920 1080" aria-label=""><defs><pattern id="gr-lens" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0H0V120" fill="none" stroke="#F5EEE6" stroke-opacity="0.05" stroke-width="1.5"/></pattern></defs><rect width="1920" height="1080" fill="url(#gr-lens)"/></svg>
+<div class="side">
+<p class="eyebrow">03 · Step two</p>
+<h2>One flow, three lenses</h2>
+
+</div>
+<div class="stage" style="width:1000px; height:760px">
+<svg width="1000" height="760" viewBox="0 0 1000 760" aria-label="Three lenses, business, user and tech, each looking at the same flow of screens"><circle cx="160" cy="180" r="150" fill="none" stroke="#FF5C35" stroke-width="18"/><circle cx="500" cy="180" r="150" fill="none" stroke="#1F1A17" stroke-width="18"/><circle cx="840" cy="180" r="150" fill="none" stroke="#A8968A" stroke-width="18"/><path d="M160 340 L330 520" stroke="#FF5C35" stroke-width="4" stroke-dasharray="10 10"/><path d="M500 340 L500 520" stroke="#1F1A17" stroke-width="4" stroke-dasharray="10 10"/><path d="M840 340 L670 520" stroke="#A8968A" stroke-width="4" stroke-dasharray="10 10"/><rect x="200" y="540" width="110" height="200" rx="6" fill="#FFFBF6" stroke="#1F1A17" stroke-width="3"/><rect x="345" y="540" width="110" height="200" rx="6" fill="#FFFBF6" stroke="#1F1A17" stroke-width="3"/><rect x="490" y="540" width="110" height="200" rx="6" fill="#FF5C35"/><rect x="635" y="540" width="110" height="200" rx="6" fill="#FFFBF6" stroke="#1F1A17" stroke-width="3"/><path d="M310 640H345M455 640H490M600 640H635" stroke="#1F1A17" stroke-width="3"/></svg>
+<p class="big-lbl" style="left:40px; top:120px; width:240px; color:#1F1A17">Business</p>
+<p class="lbl" style="left:40px; top:178px; width:240px; text-align:center">Why does it exist?</p>
+<p class="big-lbl" style="left:380px; top:120px; width:240px; color:#1F1A17">User</p>
+<p class="lbl" style="left:380px; top:178px; width:240px; text-align:center">Where does it hurt?</p>
+<p class="big-lbl" style="left:720px; top:120px; width:240px; color:#1F1A17">Tech</p>
+<p class="lbl" style="left:720px; top:178px; width:240px; text-align:center">What limits the fix?</p>
+<p class="lbl" style="left:780px; top:610px; width:200px">the flow you narrowed to</p>
+</div>
+</section>
+<section data-note="A generic food-delivery home screen, not any one app's real UI. Activity: open Zomato or Swiggy and point at everything that earns them money. Which of those also help you? Example of strategy: in a profit year, a group-order feature beats a ₹100 new-user coupon." id="lens-business">
+<div class="side">
+<p class="eyebrow">Lens 1 · Business</p>
+<h2>Follow the money</h2>
+<p class="body">Who earns from each part of this screen?</p>
+<div class="chips"><p class="chip">Ads</p><p class="chip">Subscription</p><p class="chip on">Commission</p><p class="chip">Freemium</p></div>
+</div>
+<div class="stage" style="width:1020px; height:780px">
+<div class="phone" style="left:0px; top:10px; width:380px; height:760px">
+<div class="screen">
+<div class="blk line" style="height:56px"></div>
+<div class="blk lime" style="height:120px; display:flex; align-items:center; justify-content:center"><p class="uitext">Join membership</p></div>
+<div class="uirow"><div class="blk" style="height:64px; flex:1"></div><div class="blk" style="height:64px; flex:1"></div><div class="blk" style="height:64px; flex:1"></div></div>
+<div class="blk" style="height:150px; display:flex; align-items:flex-start; justify-content:flex-end; padding:12px; box-sizing:border-box"><p class="tag" style="background:#1F1A17; color:#F5EEE6">Ad</p></div>
+<div class="blk" style="height:110px"></div>
+<div class="blk navy" style="height:64px; display:flex; align-items:center; justify-content:center"><p class="uitext w">Fees at checkout</p></div>
+</div>
+</div>
+<p class="pin" style="left:356px; top:150px; --i:0">1</p>
+<p class="pin" style="left:356px; top:262px; --i:1">2</p>
+<p class="pin" style="left:356px; top:390px; --i:2">3</p>
+<p class="pin" style="left:356px; top:690px; --i:3">4</p>
+<div style="position:absolute; left:470px; top:100px; width:550px; display:flex; flex-direction:column; gap:40px">
+<div class="note"><p class="n">1</p><p class="t"><b>Membership</b> brings repeat orders and steady revenue</p></div>
+<div class="note"><p class="n">2</p><p class="t"><b>Offers</b> push a bigger basket, so one delivery earns more</p></div>
+<div class="note"><p class="n">3</p><p class="t"><b>Promoted</b> restaurants pay to be seen first</p></div>
+<div class="note"><p class="n">4</p><p class="t"><b>Platform and delivery fees</b> show up when profit is the goal</p></div>
+</div>
+</div>
+
+</section>
+<section data-note="The mood curve is illustrative, not measured: use it to show how a journey map works. Then explain the dips with psychology: screens are judged in a split second (Strava's free Premium looked like a paywall), every calculation costs (Audible's credit maths), real progress builds trust (order trackers)." id="lens-user">
+<div class="side">
+<p class="eyebrow">Lens 2 · User</p>
+<h2>Walk the journey, feel the drops</h2>
+<p class="quote">When I’m hungry at 11 PM, I want dinner fast, so I can get back to studying.</p>
+<p class="small">One persona. One job. Judge every screen against it.</p>
+</div>
+<div class="stage" style="width:1020px; height:700px">
+<svg width="1020" height="700" viewBox="0 0 1020 700" aria-label="Journey map: mood rises when opening the app, dips while choosing and sharply at payment, recovers with live tracking, and peaks when the food arrives"><rect x="0" y="40" width="1020" height="440" rx="6" fill="#FFFBF6" stroke="#DCCFC1" stroke-width="2"/><path d="M40 260 H980" stroke="#DCCFC1" stroke-width="2" stroke-dasharray="8 8"/><path d="M90 230 C170 230 200 170 270 170 C340 170 370 300 450 300 C530 300 560 400 630 400 C700 400 730 260 810 260 C880 260 900 130 940 120" fill="none" stroke="#FF5C35" stroke-width="8" stroke-linecap="round"/><circle cx="90" cy="230" r="16" fill="#FF5C35"/><circle cx="270" cy="170" r="16" fill="#FF5C35"/><circle cx="450" cy="300" r="20" fill="#FFD9D2" stroke="#8A1C0C" stroke-width="4"/><circle cx="630" cy="400" r="24" fill="#FFD9D2" stroke="#8A1C0C" stroke-width="5"/><circle cx="810" cy="260" r="16" fill="#FF5C35"/><circle cx="940" cy="120" r="20" fill="#FFFBF6" stroke="#1F1A17" stroke-width="4"/></svg>
+<p class="lbl" style="left:20px; top:500px; width:140px; text-align:center"><b>Hungry</b></p>
+<p class="lbl" style="left:200px; top:500px; width:140px; text-align:center"><b>Open</b></p>
+<p class="lbl" style="left:380px; top:500px; width:140px; text-align:center"><b>Choose</b></p>
+<p class="lbl" style="left:560px; top:500px; width:140px; text-align:center"><b>Pay</b></p>
+<p class="lbl" style="left:740px; top:500px; width:140px; text-align:center"><b>Wait</b></p>
+<p class="lbl" style="left:880px; top:500px; width:140px; text-align:center"><b>Eat</b></p>
+<p class="lbl" style="left:360px; top:206px; width:180px; text-align:center">Too many choices</p>
+<p class="lbl" style="left:530px; top:436px; width:200px; text-align:center">Surprise fee</p>
+<p class="lbl" style="left:730px; top:296px; width:160px; text-align:center">Live tracker</p>
+<p class="lbl" style="left:20px; top:58px; width:240px">mood ↑</p>
+<div style="position:absolute; left:0px; top:580px; width:1020px; display:flex; flex-direction:row; gap:16px">
+<p class="tag good">Works: helps the job</p><p class="tag" style="background:#FFF0C2; color:#6B4E00">Friction: extra effort</p><p class="tag bad">Trust leak: surprise or silence</p>
+</div>
+</div>
+
+</section>
+<section data-note="Other dark patterns: hiding the small size so medium feels default, burying the cancel button. India's consumer protection authority issued dark pattern guidelines in 2023, so it's a legal risk too. Ask: a countdown timer on a sale? Depends whether the deadline is real." id="lens-nudge" class="">
+<svg class="bg" width="1920" height="1080" viewBox="0 0 1920 1080" aria-label=""><defs><pattern id="gr-nudge" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0H0V120" fill="none" stroke="#F5EEE6" stroke-opacity="0.05" stroke-width="1.5"/></pattern></defs><rect width="1920" height="1080" fill="url(#gr-nudge)"/></svg>
+<div class="side">
+<p class="eyebrow">Lens 2 · User</p>
+<h2>Nudge or dark pattern?</h2>
+<p class="quote">Would the user feel tricked if they saw how it works?</p>
+<p class="small">A nudge helps the job. A dark pattern hijacks it.</p>
+</div>
+<div class="stage" style="width:1000px; height:780px">
+<div class="phone" style="left:40px; top:10px; width:340px; height:680px"><div class="screen"><div class="bar s"></div><div class="blk" style="height:200px"></div><div class="bar"></div><div class="bar m"></div><div class="blk line" style="height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px"><p class="uitext">Add fries?</p><p class="small" style="color:#FF5C35">Skip</p></div><div class="blk blue" style="height:64px; display:flex; align-items:center; justify-content:center"><p class="uitext w">Pay</p></div></div></div>
+<div class="phone" style="left:620px; top:10px; width:340px; height:680px"><div class="screen"><div class="blk lime" style="height:110px; display:flex; align-items:center; justify-content:center"><p class="uitext">Get the app!</p></div><div class="blk" style="height:120px"></div><div class="blk lime" style="height:110px; display:flex; align-items:center; justify-content:center"><p class="uitext">Get the app!</p></div><div class="blk" style="height:80px"></div><div class="blk lime" style="height:110px; display:flex; align-items:center; justify-content:center"><p class="uitext">Get the app!</p></div></div></div>
+<p class="big-lbl" style="left:440px; top:300px; width:120px; color:#8F8174">vs</p>
+<p class="lbl" style="left:40px; top:716px; width:340px; text-align:center"><b>Nudge:</b> easy to skip</p>
+<p class="lbl" style="left:620px; top:716px; width:340px; text-align:center"><b>Dark pattern:</b> on every screen</p>
+</div>
+
+</section>
+<section data-note="More examples to mention: 10-minute delivery works because of small dark stores near homes plus demand prediction. UPI &quot;pending&quot; happens when money leaves the bank before the merchant confirms. Audible's &quot;credits added soon&quot;: is it a real delay or a display lag? If it's a lag, the fix is easy." id="lens-tech">
+<div class="side">
+<p class="eyebrow">Lens 3 · Tech</p>
+<h2>What happens behind the screen</h2>
+
+<p class="small">Is it a product problem or a system limit?</p>
+</div>
+<div class="stage" style="width:1000px; height:780px">
+<div style="position:absolute; left:250px; top:0px; width:500px; height:150px; background:#1F1A17; border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px"><p class="small" style="color:#BFB1A3">What the user sees</p><p class="uitext w" style="font-size:32px">“Rider is 4 min away”</p></div>
+<div style="position:absolute; left:300px; top:290px; width:400px; height:120px; background:#FF5C35; border-radius:6px; display:flex; align-items:center; justify-content:center"><p class="uitext w" style="font-size:30px">App’s servers</p></div>
+<div style="position:absolute; left:0px; top:560px; width:300px; height:120px; background:#FFFBF6; border:3px solid #1F1A17; border-radius:6px; display:flex; align-items:center; justify-content:center"><p class="uitext">Restaurant</p></div>
+<div style="position:absolute; left:350px; top:560px; width:300px; height:120px; background:#FFD9D2; border:3px solid #8A1C0C; border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center"><p class="uitext">Rider’s GPS</p><p class="small" style="color:#8A1C0C">slow to update</p></div>
+<div style="position:absolute; left:700px; top:560px; width:300px; height:120px; background:#FFFBF6; border:3px solid #1F1A17; border-radius:6px; display:flex; align-items:center; justify-content:center"><p class="uitext">Payment / bank</p></div>
+<x-connector x1="500" y1="290" x2="500" y2="150" head="end" style="color:#1F1A17; border-width:4px"></x-connector>
+<x-connector x1="150" y1="560" x2="400" y2="410" head="end" style="color:#7A6C60; border-width:4px"></x-connector>
+<x-connector x1="500" y1="560" x2="500" y2="410" head="end" style="color:#8A1C0C; border-width:4px; border-style:dashed"></x-connector>
+<x-connector x1="850" y1="560" x2="600" y2="410" head="end" style="color:#7A6C60; border-width:4px"></x-connector>
+<p class="lbl" style="left:0px; top:712px; width:1000px; text-align:center">One slow source freezes the tracker, and users blame the app.</p>
+</div>
+
+</section>
+<section data-note="Match the metric to how often people use the product: daily users fits WhatsApp, not a travel app used a few times a year. Vanity check: if this number doubled, would users or the business definitely be better off? Downloads usually fail. Metric per lens: business (conversion, order value), user (task success, day-7 retention), tech (load time, payment success)." id="metrics">
+<div class="side">
+<p class="eyebrow">04 · Metrics</p>
+<h2>A fix without a metric is an opinion</h2>
+
+</div>
+<div class="stage" style="width:1000px; height:760px">
+<svg width="620" height="560" viewBox="0 0 620 560" aria-label="Metric pyramid: North Star on top, input metrics below it"><path d="M310 0 L470 220 L150 220 Z" fill="#FFFBF6" stroke="#1F1A17" stroke-width="3"/><path d="M140 240 L480 240 L620 520 L0 520 Z" fill="#FF5C35"/></svg>
+<p class="big-lbl" style="left:210px; top:140px; width:200px; font-size:32px">North Star</p>
+<p class="big-lbl" style="left:110px; top:360px; width:400px; font-size:36px; color:#F5EEE6">Input metrics</p>
+<div style="position:absolute; left:0px; top:580px; width:620px; height:100px; border:4px dashed #1F1A17; border-radius:6px; box-sizing:border-box; display:flex; align-items:center; justify-content:center"><p class="uitext" style="font-size:32px">Guardrail</p></div>
+<div style="position:absolute; left:680px; top:60px; width:320px; display:flex; flex-direction:column; gap:12px"><p class="small"><b style="color:#1F1A17">One number</b> that shows users get value AND the business grows</p><p class="chip">Food app: orders delivered</p></div>
+<div style="position:absolute; left:680px; top:320px; width:320px; display:flex; flex-direction:column; gap:12px"><p class="small"><b style="color:#1F1A17">Levers</b> a team can move</p><p class="chip">Repeat order rate</p><p class="chip">Search success</p></div>
+<div style="position:absolute; left:680px; top:584px; width:320px; display:flex; flex-direction:column; gap:12px"><p class="small"><b style="color:#1F1A17">Must not get worse</b> while you push</p><p class="chip">Delivery time</p></div>
+</div>
+
+</section>
+<section data-note="Steelman first: ask why the company might have done it this way on purpose. Strava's 25% off on the free-trial screen may be deliberate, so the fix separates it from the gift instead of deleting it." id="fix-format" style="flex-direction:column; align-items:stretch; justify-content:center; gap:48px">
+<div style="display:flex; flex-direction:row; justify-content:space-between; align-items:flex-end">
+<div style="display:flex; flex-direction:column; gap:20px; width:1100px"><p class="eyebrow">05 · From finding to fix</p><h2>Every fix has four parts</h2></div>
+<p class="small" style="width:480px">Rank fixes by impact vs effort. Fix broken basics before adding features.</p>
+</div>
+<div style="display:flex; flex-direction:row; align-items:center; gap:16px">
+<p class="chip on in" style="--i:0; font-size:32px; padding:18px 40px">Change</p><x-shape kind="arrow-right" style="width:64px; height:32px; background:#FF5C35"></x-shape>
+<p class="chip in" style="--i:1; font-size:32px; padding:18px 40px">Metric</p><x-shape kind="arrow-right" style="width:64px; height:32px; background:#FF5C35"></x-shape>
+<p class="chip in" style="--i:2; font-size:32px; padding:18px 40px">Guardrail</p><x-shape kind="arrow-right" style="width:64px; height:32px; background:#FF5C35"></x-shape>
+<p class="chip in" style="--i:3; font-size:32px; padding:18px 40px; background:#FFFBF6">Why</p>
+</div>
+<div style="display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:24px; background:#FFFBF6; border:3px solid #1F1A17; border-radius:8px; padding:40px">
+<div style="display:flex; flex-direction:column; gap:10px"><p class="tag" style="background:#1F1A17; color:#FFFBF6">Audible</p><p class="small" style="color:#1F1A17">A 3-step tracker after buying credits, with an ETA and a notification</p></div>
+<p class="small" style="color:#1F1A17">“Credits not added” tickets per 1,000 purchases</p>
+<p class="small" style="color:#1F1A17">Repeat credit purchase within 60 days</p>
+<p class="small" style="color:#1F1A17">Visible progress turns waiting into trust</p>
+</div>
+
+</section>
+<section data-note="From my Day 1 breakdown. Captive users make usage look healthy, which doesn't mean the product does its job. Chose not to solve yet: feed and calendar adoption is unclear, so instrument first and look at usage before redesigning. Guardrail logic: more time on the portal could just mean more searching. Honesty: all of this comes from one user (me); they're hypotheses until validated with Mom Test interviews with other first years. Portal mockup is a wireframe of the pattern, not the real UI." id="nst">
+<div class="side">
+<p class="eyebrow">06 · Put together</p>
+<h2>The NST portal, broken down</h2>
+<p class="quote">Keep attendance above 75% and prep for contests without missing anything.</p>
+<p class="small">Persona: a first year, during exam and contest prep. 4 personas, one per year; first years chosen.</p>
+</div>
+<div class="stage" style="width:1020px; height:800px">
+<div style="position:absolute; left:0px; top:0px; width:540px; height:800px; background:#FFFBF6; border:3px solid #1F1A17; border-radius:6px; overflow:hidden; box-shadow:0px 30px 60px rgba(11,18,32,0.18); display:flex; flex-direction:column">
+<div style="height:48px; background:#1F1A17; display:flex; flex-direction:row; align-items:center; gap:10px; padding:0px 20px"><div style="width:14px; height:14px; border-radius:7px; background:#FFFBF6"></div><div style="width:14px; height:14px; border-radius:7px; background:#7A6C60"></div><div style="width:14px; height:14px; border-radius:7px; background:#7A6C60"></div></div>
+<div style="padding:22px; display:flex; flex-direction:column; gap:14px">
+<div class="blk dash" style="height:56px; display:flex; align-items:center; justify-content:center"><p class="small">Download the app</p></div>
+<div class="uirow"><p class="tag" style="background:#FFD9D2; color:#8A1C0C">Subject: reset</p><p class="tag" style="background:#EDE3D7; color:#1F1A17">All</p></div>
+<div class="blk line" style="height:58px; display:flex; align-items:center; padding:0px 16px"><p class="small" style="color:#1F1A17">Lab · Assignment 4</p></div>
+<div class="blk line" style="height:58px; display:flex; align-items:center; padding:0px 16px"><p class="small" style="color:#1F1A17">Lecture · Assignment 7</p></div>
+<div class="blk line" style="height:58px; display:flex; align-items:center; padding:0px 16px"><p class="small" style="color:#1F1A17">Lab · Assignment 2</p></div>
+<div class="blk line" style="height:58px; display:flex; align-items:center; padding:0px 16px"><p class="small" style="color:#1F1A17">Lecture · Assignment 5</p></div>
+<div class="blk" style="height:58px"></div>
+<div class="blk" style="height:58px"></div>
+<div class="blk" style="height:70px; background:#FFE2D8; display:flex; align-items:center; padding:0px 16px"><p class="small" style="color:#1F1A17">Notes (bottom of the page)</p></div>
+</div>
+</div>
+<p class="pin" style="left:514px; top:76px; --i:0">4</p>
+<p class="pin" style="left:514px; top:146px; --i:1">1</p>
+<p class="pin" style="left:514px; top:280px; --i:2">2</p>
+<p class="pin" style="left:514px; top:700px; --i:3">3</p>
+<div style="position:absolute; left:600px; top:0px; width:420px; display:flex; flex-direction:column; gap:20px">
+<div class="note"><p class="n">1</p><p class="t"><b>Context loss:</b> solve a problem, hit back, and the subject filter is gone</p></div>
+<div class="note"><p class="n">2</p><p class="t">Even refiltered, <b>lab and lecture</b> items stay mixed</p></div>
+<div class="note"><p class="n">3</p><p class="t"><b>Notes</b> matter most in exam season but sit at the bottom</p></div>
+<div class="note"><p class="n">4</p><p class="t">App banner adds friction, but may serve <b>push reach</b>: kept as an open question</p></div>
+<div style="background:#1F1A17; border-radius:6px; padding:24px; display:flex; flex-direction:column; gap:8px"><p class="tag" style="background:#FFFBF6; color:#1F1A17">Fix · 1 of 7 ideas</p><p class="small" style="color:#F5EEE6">Back button remembers the subject filter</p><p class="small" style="color:#BFB1A3"><b style="color:#FFFBF6">Metric:</b> filter reapplied right after returning · <b style="color:#FFFBF6">Guardrail:</b> time on portal</p></div>
+</div>
+</div>
+
+</section>
+<section data-note="" id="close" class="">
+<svg class="bg" width="1920" height="1080" viewBox="0 0 1920 1080" aria-label=""><defs><pattern id="gr-close" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0H0V120" fill="none" stroke="#F5EEE6" stroke-opacity="0.06" stroke-width="1.5"/></pattern><radialGradient id="o1-close"><stop offset="0" stop-color="#FF5C35" stop-opacity="0.55"/><stop offset="1" stop-color="#FF5C35" stop-opacity="0"/></radialGradient></defs><rect width="1920" height="1080" fill="url(#gr-close)"/></svg>
+<div class="side wide">
+<p class="eyebrow">Your breakdown checklist</p>
+<h1>Is there anything I missed?</h1>
+</div>
+<div class="main">
+<div class="note"><p class="n">1</p><p class="t">Narrow: product, persona, flow, <b>one question</b></p></div>
+<div class="note"><p class="n">2</p><p class="t">Write the <b>job</b>: when I, I want to, so I can</p></div>
+<div class="note"><p class="n">3</p><p class="t">Look through <b>business, user, tech</b></p></div>
+<div class="note"><p class="n">4</p><p class="t">Each fix: <b>change, metric, guardrail, why</b></p></div>
+<div class="note"><p class="n">5</p><p class="t">Split <b>observed</b> from <b>assumed</b></p></div>
+</div>
+</section>
+
+</div></div>
+<div id="notes"></div>
+<div id="ui"><button id="prev">← Prev</button><span id="count"></span><button id="next">Next →</button><button id="nb">Notes (N)</button></div>
+<script>
+const s=[...document.querySelectorAll('#deck>section')];let i=0;const deck=document.getElementById('deck'),notes=document.getElementById('notes');
+function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080);deck.style.transform='translate(-50%,-50%) scale('+k+')';}
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((e,j)=>e.classList.toggle('cur',j===i));document.getElementById('count').textContent=(i+1)+' / '+s.length;notes.textContent=s[i].dataset.note||'No notes for this slide.';location.hash=i+1;}
+addEventListener('resize',fit);addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);if(e.key==='n'||e.key==='N')notes.style.display=notes.style.display==='block'?'none':'block';});
+document.getElementById('prev').onclick=()=>show(i-1);document.getElementById('next').onclick=()=>show(i+1);document.getElementById('nb').onclick=()=>notes.style.display=notes.style.display==='block'?'none':'block';
+fit();show((parseInt(location.hash.slice(1))||1)-1);
+</script></body></html>
